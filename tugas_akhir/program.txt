@@ -1,0 +1,212 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+// --- STACK ---
+
+// deklarasi variabel isiStack, maksimal, jumlah
+int isiStack[100];
+const int maksimal = 100;
+int jumlah = 0;
+char nama[100];
+string name[100], hapus;
+
+// bagian buat function
+
+// isEmpty mengecek jumlah stack keseluruhan
+bool IsEmpty()
+{
+    // lanjutkan jumlah = 0
+    return jumlah == 0;
+}
+
+// isFull mengecek jumlah kapasitas stack yg di gunakan
+bool IsFull()
+{
+    // lanjutkan jumlah lebih besar sama dengan variabel maksimal
+    return jumlah >= maksimal;
+}
+
+int ItemsRemaining()
+{
+    // lanjutkan maksimal di kurang jumlah
+    return maksimal - jumlah;
+}
+
+// menghitung jumlah keseluruhan stack
+int Count()
+{
+    // hitung jumlah
+    return jumlah;
+}
+
+// kapasitas
+int MaximumSize()
+{
+    // hitung maksimal
+    return maksimal;
+}
+
+// input data stack
+void Push()
+{
+    if (IsFull())
+    {
+        cout << "Stack sudah penuh!" << endl;
+        return;
+    }
+
+    cout << "Masukan Nama: ";
+    cin >> nama;
+    jumlah += 1;
+    name[jumlah] = nama;
+    cout << "Data sudah diinputkan " << nama << endl;
+}
+
+// menghapus data stack
+void Pop()
+{
+    if (IsEmpty())
+    {
+        cout << "Stack masih kosong!" << endl;
+        return;
+    }
+
+    cout << "Membuang Data Nama: ";
+    cin >> hapus;
+
+    for (int j = 0; j <= jumlah; j++)
+    {
+        if (hapus == name[j])
+        {
+            for (int x = j; x < jumlah; x++)
+            {
+
+                name[x] = name[x + 1];
+            }
+
+            // Mengurangi jumlah array karena saah satu datanya telah dihapus
+            jumlah -= 1;
+            break;
+        }
+    }
+    cout << "Berhasil Membuang data " << hapus << endl;
+}
+
+// menghapus semua data stack
+void Clear()
+{
+    jumlah = 0;
+    cout << "Stack sudah bersih" << endl;
+}
+
+// menampilkan semua data stack
+void Print()
+{
+    if (IsEmpty())
+    {
+        // jika jumlah = 0 maka "Belum ada data pada stack"
+        cout << "Belum ada data pada stack" << endl;
+        return;
+    }
+
+    for (int i = 0; i <= jumlah; i++)
+    {
+        cout << name[i] << endl;
+    }
+}
+
+// end bagian function
+
+// --- MAIN APPLICATION ---
+
+int main()
+{
+    // deklarasi variabel pilihan_user, isLoop
+    auto pilihan_user = 0;
+    auto isLoop = true;
+
+    // membuat perulangan data
+    while (isLoop)
+    {
+        cout << "\n	  PROGRAM PEMAKAIAN\n 	LABORATORIUM KOMPUTER\n"
+             << endl;
+        cout << "-------------------------------------------------------" << endl;
+        cout << "1. PENGECEKAN LAB KOMPUTER" << setw(15) << " " << setw(4) << "2. MENGGUNAKAN LAB KOMPUTER" << setw(9) << endl;
+        cout << endl
+             << setw(15) << "3. MENGEMBALIAN LAB KOMPUTER" << setw(15) << endl
+             << endl;
+
+        cout << "Masukan pilihan: ";
+        cin >> pilihan_user;
+
+        // membuat pilihan
+        switch (pilihan_user)
+        {
+        case 1:
+            // memanggil function IsEmpty
+            if (IsEmpty())
+            {
+                cout << "Stack masih kosong." << endl;
+                cout << endl;
+                break;
+            }
+
+            cout << "Stack sudah terisi " << Count() << "elemen" << endl;
+            cout << endl;
+            break;
+
+        case 2:
+            // memanggil function IsFull
+            if (IsFull())
+            {
+                cout << "Stack sudah penuh.";
+                cout << endl;
+                break;
+            }
+
+            cout << "Stack masih sisa " << ItemsRemaining() << " elemen" << endl;
+            cout << endl;
+            break;
+
+        case 3:
+            // memanggil function Push
+            Push();
+            cout << endl;
+            break;
+
+        case 4:
+            // memanggil function Pop
+            Pop();
+            cout << endl;
+            break;
+
+        case 5:
+            // memanggil function Print
+            Print();
+            cout << endl;
+            break;
+
+        case 6:
+            // memanggil function Clear
+            Clear();
+            cout << endl;
+            break;
+
+        case 7:
+            cout << "Bye!";
+            isLoop = false;
+            break;
+
+            // jika salah input pilihan
+        default:
+            cout << "Salah input!" << endl;
+            cout << endl;
+            break;
+        }
+    }
+}
+kodelab jadi namalab
+tambah display jam pemakaian awal dan jam selesai pemekaian (switch case) = clear
+setelah dikembalikan stock tidak berubah == Clear

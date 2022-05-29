@@ -1,0 +1,744 @@
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+// --- deklarasi struct ---
+
+struct lab
+{
+    int kode_lab[100];
+    char nama_lab[100];
+} lab[100];
+
+// deklarasi variabel isiStack, maksimal, jumlah
+int isiStack[100];
+const int maksimal = 100;
+int jumlah = 0;
+char lab[100], hapus[100], nama[100];
+string name[100], del[100], kom[100];
+char ulang;
+
+// bagian buat function
+
+// isEmpty mengecek jumlah stack keseluruhan
+bool IsEmpty()
+{
+    // lanjutkan jumlah = 0
+    return jumlah == 0;
+}
+
+// isFull mengecek jumlah kapasitas stack yg di gunakan
+bool IsFull()
+{
+    // lanjutkan jumlah lebih besar sama dengan variabel maksimal
+    return jumlah >= maksimal;
+}
+
+int ItemsRemaining()
+{
+    // lanjutkan maksimal di kurang jumlah
+    return maksimal - jumlah;
+}
+
+// menghitung jumlah keseluruhan stack
+int Count()
+{
+    // hitung jumlah
+    return jumlah;
+}
+
+// kapasitas
+int MaximumSize()
+{
+    // hitung maksimal
+    return maksimal;
+}
+
+// input data stack
+
+void Input()
+{
+    if (IsFull())
+    {
+        cout << "Stack sudah penuh!" << endl;
+        return;
+    }
+
+    cout << "Masukan Nama: ";
+    cin >> lab;
+    jumlah += 1;
+    kom[jumlah] = lab;
+    cout << "Data sudah diinputkan " << lab << endl;
+}
+
+void minjam()
+{
+    if (IsFull())
+    {
+        cout << "Stack sudah penuh!" << endl;
+        return;
+    }
+
+    cout << "Masukan Lab: ";
+    cin >> nama;
+    for (int j = 0; j <= jumlah; j++)
+    {
+        if (nama == kom[j])
+        {
+            for (int x = j; x < jumlah; x++)
+            {
+
+                kom[x] = kom[x + 1];
+            }
+
+            // Mengurangi jumlah array karena saah satu datanya telah dihapus
+
+            jumlah -= 1;
+            name[jumlah] = nama;
+            break;
+        }
+    }
+    cout << "Berhasil Meminjam " << nama << endl;
+}
+
+// menghapus data stack
+void kembali()
+{
+    if (IsEmpty())
+    {
+        cout << "Stack masih kosong!" << endl;
+        return;
+    }
+
+    cout << "Membuang Data Nama: ";
+    cin >> hapus;
+
+    for (int j = 0; j <= jumlah; j++)
+    {
+        if (hapus == kom[j])
+        {
+            for (int x = j; x < jumlah; x++)
+            {
+
+                kom[x] = kom[x + 1];
+            }
+
+            // Mengurangi jumlah array karena saah satu datanya telah dihapus
+
+            jumlah -= 1;
+            del[jumlah] = hapus;
+            break;
+        }
+    }
+    cout << "Berhasil Membuang data " << hapus << endl;
+}
+
+// menghapus semua data stack
+void Clear()
+{
+    jumlah = 0;
+    cout << "Stack sudah bersih" << endl;
+}
+
+// menampilkan semua data stack
+void Print()
+{
+    if (IsEmpty())
+    {
+        // jika jumlah = 0 maka "Belum ada data pada stack"
+        cout << "Belum ada data pada stack" << endl;
+        return;
+    }
+
+    for (int i = 0; i <= jumlah; i++)
+    {
+        cout << kom[i] << endl;
+    }
+}
+
+void PrintBlm()
+{
+    if (IsEmpty())
+    {
+        // jika jumlah = 0 maka "Belum ada data pada stack"
+        cout << "Belum ada data pada stack" << endl;
+        return;
+    }
+
+    for (int i = 0; i <= jumlah; i++)
+    {
+        cout << del[i] << endl;
+    }
+}
+
+// end bagian function
+
+// --- MAIN APPLICATION ---
+
+int main()
+{
+
+    // deklarasi variabel pilihan_user, isLoop
+    auto pilihan_user = 0;
+    auto isLoop = true;
+
+    // membuat perulangan data
+    while (isLoop)
+    {
+        cout << "\n	  PROGRAM PEMAKAIAN\n 	LABORATORIUM KOMPUTER\n"
+             << endl;
+        cout << "-------------------------------------------------------" << endl;
+        cout << "1. PENGECEKAN LAB KOMPUTER" << setw(15) << " " << setw(4) << "2. MENGGUNAKAN LAB KOMPUTER" << setw(9) << endl;
+        cout << endl
+             << "3. MENGEMBALIAN LAB KOMPUTER" << setw(15) << " " << setw(4) << "4. INPUT LAB KOMPUTER" << setw(9) << endl
+             << endl;
+
+        cout << "Masukan pilihan: ";
+        cin >> pilihan_user;
+
+        // membuat pilihan
+        switch (pilihan_user)
+        {
+
+        case 1:
+            do
+            {
+                // memanggil function Print
+                system("cls");
+                cout << "\n	  LABORATORIUM KOMPUTER\n UNIVERSITAS PAKUAN\n"
+                     << endl;
+
+                Print();
+
+                cout << endl;
+                cout << "\n	  LABORATORIUM KOMPUTER\n 	YANG SEDANG DIGUNAKAN\n"
+                     << endl;
+                PrintBlm();
+                cout << "\n\nApakah Ingin Kembali?(Y/T)";
+                cin >> ulang;
+            } while (ulang == 't'); //jika memasukan input y maka proses perhitungan rumus dilanjutkan
+            system("cls");
+            break;
+
+        case 2:
+            // memanggil function Push
+
+            minjam();
+
+            cout << endl;
+            break;
+
+        case 3:
+            // memanggil function Pop
+            kembali();
+            cout << endl;
+            break;
+
+        case 4:
+            // memanggil function Clear
+            Input();
+            cout << endl;
+            break;
+
+        case 7:
+            cout << "Bye!";
+            isLoop = false;
+            break;
+
+            // jika salah input pilihan
+        default:
+            cout << "Salah input!" << endl;
+            cout << endl;
+            break;
+        }
+    }
+}
+
+
+#include <iostream>
+#include <iomanip>
+#include <limits>
+#include <fstream>
+#include <string>
+using namespace std;
+
+// --- deklarasi struct ---
+
+struct lab
+{
+    int stock = 1;
+    char kode_lab[100];
+    char nama_lab[100];
+} lab[100];
+
+struct pakai
+{
+
+    int npm, lp, jam1, jam2, dipakai;
+    char nama[100];
+    char prodi[100];
+    char kl[100];
+    char pelajaran[100];
+    char dosen[100];
+    char status, kelas[100];
+} pakaiLab[100];
+
+void pilihanJam()
+{
+    cout << setw(2) << "1. 08:00" << setw(15) << " " << setw(4) << "2. 09:00" << setw(9) << endl;
+    cout << setw(2) << "3. 10:00" << setw(15) << " " << setw(4) << "4. 11:00" << setw(9) << endl;
+    cout << setw(2) << "5. 14:00" << setw(15) << " " << setw(4) << "6. 13:00" << setw(9) << endl;
+    cout << setw(2) << "7. 14:00" << setw(15) << " " << setw(4) << "8. 15:00" << setw(9) << endl;
+    cout << setw(2) << "9. 16:00" << setw(15) << " " << setw(4) << "10. 17:00" << setw(9) << endl;
+}
+
+// --- MAIN APPLICATION ---
+
+int main()
+{
+    ofstream outData;
+    int pilih, lc, stok, pin, pl, pk, pj, kode, pukul, np[100];
+    string sd, jam1[20], jam2[20], kp, lab1, lab2;
+    int lk = -1;
+    int st = 0;
+    int lp = -1;
+    int lb = 0;
+    char yn, ex;
+
+menu:
+    cout << "\n	  PROGRAM PEMAKAIAN\n 	LABORATORIUM & KELAS \n"
+         << endl;
+    cout << "-------------------------------------------------------" << endl;
+    cout << "1. PENGECEKAN LAB/KELAS " << setw(15) << " " << setw(4) << "2. MENGGUNAKAN LAB/KELAS " << setw(9) << endl;
+    cout << endl
+         << "3. MENGEMBALIKAN LAB/KELAS" << setw(15) << " " << setw(4) << "4. INPUT LAB/KELAS" << setw(9) << endl
+         << endl;
+
+    cout << "Masukan pilihan: ";
+    cin >> pilih;
+    switch (pilih)
+    {
+    case 1:
+
+        system("cls");
+        cout << "\n"
+             << endl;
+        cout << "\t\t\tDaftar Lab/kelas" << endl;
+        cout << "\t\t\t___________\n"
+             << endl;
+        cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n";
+        cout << " No  Kode Lab/kelas            Nama Lab/kelas                  Stock                  Nama                  NPM                  Kelas Mahasiswa\n";
+        cout << "------------------------------------------------------------------------------------------------------------------------------------------------\n";
+
+        for (lc = 0; lc <= lk; lc++)
+        {
+            stok = lab[lc].stock - pakaiLab[lc].dipakai;
+            if (stok == 0)
+            {
+                sd = "sedang digunakan";
+            }
+            else
+            {
+                sd = "Tidak Digunakan";
+            }
+
+            cout << setw(2) << lc + 1 << setw(8) << lab[lc].kode_lab << setw(22) << lab[lc].nama_lab << setw(22) << sd << setw(22) << pakaiLab[lc].nama << setw(22) << pakaiLab[lc].npm << setw(22) << pakaiLab[lc].kelas;
+            cout << endl;
+        }
+        cout << endl;
+        lab1 = lab[lc].kode_lab;
+        lab2 = lab[lc].nama_lab;
+        cout << "Apakah ingin ouput excel ? (y/n) :";
+        cin >> ex;
+        if (ex == 'y' || ex == 'Y')
+        {
+            outData.open("laporan.csv", ios::app);
+            outData << " No";
+            outData << "Kode Lab/Kelas";
+            outData << "Nama Lab/Kelas";
+            outData << "Stock";
+            outData << "Nama";
+            outData << "Kelas Mahasiswa";
+            outData << endl;
+            outData << lab1;
+            outData << lab2;
+            outData << sd;
+            outData << pakaiLab[lc].nama;
+            outData << pakaiLab[lc].kelas;
+        }
+        else
+        {
+
+            cout << "\n\n Baiklah \n"
+                 << endl;
+            system("pause");
+            system("cls");
+            goto menu;
+        }
+        break;
+
+    case 2:
+    pakai:
+
+        system("cls");
+
+        cout << endl;
+        cout << endl;
+        if (lb == 0)
+        {
+            cout << "\n\n Data Lab/Kelas Belum Tersedia \n"
+                 << endl;
+            system("pause");
+            system("cls");
+            goto menu;
+        }
+        else
+        {
+            cout << "\t\t\tDaftar Lab/Kelas" << endl;
+            cout << "\t\t\t___________\n"
+                 << endl;
+            cout << "---------------------------------------------------------------------------------------------------------------------------------------\n";
+            cout << " No  Kode Lab/Kelas            Nama Lab/Kelas                  Stock                  Nama                  NPM                  Kelas\n";
+            cout << "---------------------------------------------------------------------------------------------------------------------------------------\n";
+
+            for (lc = 0; lc <= lk; lc++)
+            {
+                stok = lab[lc].stock - pakaiLab[lc].dipakai;
+                if (stok == 0)
+                {
+                    sd = "sedang digunakan";
+                }
+                else
+                {
+                    sd = "Tidak Digunakan";
+                }
+
+                cout << setw(2) << lc + 1 << setw(8) << lab[lc].kode_lab << setw(22) << lab[lc].nama_lab << setw(22) << sd << setw(22) << pakaiLab[lc].nama << setw(22) << pakaiLab[lc].npm << setw(22) << pakaiLab[lc].kelas;
+                cout << endl;
+            }
+            cout << endl;
+            cout << "\n"
+                 << endl;
+            cout << "\t\t\t Transaksi Peminjaman : \n";
+            cout << "\t\t\t____________________\n\n";
+            lp++;
+            cout << " Masukan data Pinjaman Ke \t: " << lp + 1 << endl;
+
+            cout << " Masukan NPM \t\t\t:";
+            scanf("%d", &pakaiLab[lp].npm);
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+        kode:
+            cout << " Kode lab/Kelas \t\t\t:";
+            gets(pakaiLab[lp].kl);
+
+            if (pakaiLab[lp].kl == lab[lp].kode_lab)
+            {
+                pakaiLab[lp].dipakai = 1;
+            }
+            else
+            {
+                cout << "\n Data Lab Tidak Ditemukan \n";
+                goto kode;
+            }
+
+            cout << "\nMasukan Nama  \t\t: ";
+            gets(pakaiLab[lp].nama);
+            cout << " Masukan Prodi  \t\t: ";
+            gets(pakaiLab[lp].prodi);
+            cout << " Masukan Pelajaran  \t\t: ";
+            gets(pakaiLab[lp].pelajaran);
+            cout << " Masukan Kelas  \t\t: ";
+            gets(pakaiLab[lp].kelas);
+            cout << " Masukan Nama Dosen  \t\t: ";
+            gets(pakaiLab[lp].dosen);
+            cout << "\tMulai Jam Pemakaian :" << endl;
+            pilihanJam();
+            cout << "\nSilahkan Pilih Jam Sesuai NO :";
+            cin >> pakaiLab[lp].jam1;
+            if (pakaiLab[lp].jam1 == 1)
+            {
+                jam1[lp] = "08:00";
+                pakaiLab[lp].jam1 = 8;
+            }
+            else if (pakaiLab[lp].jam1 == 2)
+            {
+                jam1[lp] = "09:00";
+                pakaiLab[lp].jam1 = 9;
+            }
+            else if (pakaiLab[lp].jam1 == 3)
+            {
+                jam1[lp] = "10:00";
+                pakaiLab[lp].jam1 = 10;
+            }
+            else if (pakaiLab[lp].jam1 == 4)
+            {
+                jam1[lp] = "11:00";
+                pakaiLab[lp].jam1 = 11;
+            }
+            else if (pakaiLab[lp].jam1 == 5)
+            {
+                jam1[lp] = "12:00";
+                pakaiLab[lp].jam1 = 12;
+            }
+            else if (pakaiLab[lp].jam1 == 6)
+            {
+                jam1[lp] = "13:00";
+                pakaiLab[lp].jam1 = 13;
+            }
+            else if (pakaiLab[lp].jam1 == 7)
+            {
+                jam1[lp] = "14:00";
+                pakaiLab[lp].jam1 = 14;
+            }
+            else if (pakaiLab[lp].jam1 == 8)
+            {
+                jam1[lp] = "15:00";
+                pakaiLab[lp].jam1 = 15;
+            }
+            else if (pakaiLab[lp].jam1 == 9)
+            {
+                jam1[lp] = "16:00";
+                pakaiLab[lp].jam1 = 16;
+            }
+            else if (pakaiLab[lp].jam1 == 10)
+            {
+                jam1[lp] = "17:00";
+                pakaiLab[lp].jam1 = 17;
+            }
+
+            cout << "\tJam Selesai Pemakaian :" << endl;
+            pilihanJam();
+            cout << "\nSilahkan Pilih Jam Sesuai NO :";
+            cin >> pakaiLab[lp].jam2;
+            if (pakaiLab[lp].jam2 == 1)
+            {
+                jam2[lp] = "08:00";
+                pakaiLab[lp].jam2 = 8;
+            }
+            else if (pakaiLab[lp].jam2 == 2)
+            {
+                jam2[lp] = "09:00";
+                pakaiLab[lp].jam2 = 9;
+            }
+            else if (pakaiLab[lp].jam2 == 3)
+            {
+                jam2[lp] = "10:00";
+                pakaiLab[lp].jam2 = 10;
+            }
+            else if (pakaiLab[lp].jam2 == 4)
+            {
+                jam2[lp] = "11:00";
+                pakaiLab[lp].jam2 = 11;
+            }
+            else if (pakaiLab[lp].jam2 == 5)
+            {
+                jam2[lp] = "12:00";
+                pakaiLab[lp].jam2 = 12;
+            }
+            else if (pakaiLab[lp].jam2 == 6)
+            {
+                jam2[lp] = "13:00";
+                pakaiLab[lp].jam2 = 13;
+            }
+            else if (pakaiLab[lp].jam2 == 7)
+            {
+                jam2[lp] = "14:00";
+                pakaiLab[lp].jam2 = 14;
+            }
+            else if (pakaiLab[lp].jam2 == 8)
+            {
+                jam2[lp] = "15:00";
+                pakaiLab[lp].jam2 = 15;
+            }
+            else if (pakaiLab[lp].jam2 == 9)
+            {
+                jam2[lp] = "16:00";
+                pakaiLab[lp].jam2 = 16;
+            }
+            else if (pakaiLab[lp].jam2 == 10)
+            {
+                jam2[lp] = "17:00";
+                pakaiLab[lp].jam2 = 17;
+            }
+            cout << endl;
+            cout << "Dari Pukul " << jam1[lp] << " - " << jam2[lp] << " WIB" << endl;
+            pukul = pakaiLab[lp].jam2 - pakaiLab[lp].jam1;
+            cout << "Lama Pemakaian : " << pukul << " Jam" << endl;
+            cout << " Status dipinjam (y) ? \t\t:";
+            cin >> pakaiLab[lp].status;
+            cout << endl;
+            cout << "Apakah Anda Ingin Menambahkan Data Lagi ? (y/n) :";
+            cin >> yn;
+
+            if (yn == 'y' || yn == 'Y')
+            {
+                goto pakai;
+            }
+            else
+            {
+                st = 1;
+                cout << "\n\n Data Berhasil Disimpan \n"
+                     << endl;
+
+                system("pause");
+                system("cls");
+                goto menu;
+            }
+        }
+
+        break;
+
+    case 3:
+        system("cls");
+    pengembalian:
+        if (st == 0)
+        {
+            cout << "\n\n Belum Ada Yang meminjam \n"
+                 << endl;
+            system("pause");
+            system("cls");
+            goto menu;
+        }
+        else
+        {
+            cout << "\t\t\tDaftar Lab/Kelas" << endl;
+            cout << "\t\t\t________________\n"
+                 << endl;
+            cout << "---------------------------------------------------------------------------------------------------------------------------------------\n";
+            cout << " No  Kode Lab/Kelas            Nama Lab/Kelas                  Stock                  Nama                  NPM                  Kelas\n";
+            cout << "---------------------------------------------------------------------------------------------------------------------------------------\n";
+
+            for (lc = 0; lc <= lk; lc++)
+            {
+                stok = lab[lc].stock - pakaiLab[lc].dipakai;
+                if (stok == 0)
+                {
+                    sd = "sedang digunakan";
+                }
+                else
+                {
+                    sd = "Tidak Digunakan";
+                }
+
+                cout << setw(2) << lc + 1 << setw(8) << lab[lc].kode_lab << setw(22) << lab[lc].nama_lab << setw(22) << sd << setw(22) << pakaiLab[lc].nama << setw(22) << pakaiLab[lc].npm << setw(22) << pakaiLab[lc].kelas;
+                cout << endl;
+            }
+            cout << endl;
+            cout << "\n"
+                 << endl;
+            cout << "\t\t\tMasukan NPM Peminjaman :";
+            cin >> kode;
+            cout << "\t\t\t____________________\n"
+                 << endl;
+            cout << endl;
+            for (pl = 0; pl <= lp; pl++)
+            {
+                if (pakaiLab[pl].npm == kode)
+                {
+                    cout << " Nama Lab/Kelas \t\t:" << pakaiLab[pl].nama;
+                    cout << endl;
+                    cout << " Prodi \t\t:" << pakaiLab[pl].prodi;
+                    pakaiLab[pl].dipakai = 0;
+                    cout << endl;
+                    if (lab[pl].kode_lab == pakaiLab[pl].kl)
+                    {
+                        cout << " Judul lab/kelas plt\t\t:" << lab[pl].nama_lab << endl;
+                    }
+                    cout << " Dosen \t\t:" << pakaiLab[pl].dosen << endl;
+                    cout << " Status : " << pakaiLab[pl].status;
+                    if ((pakaiLab[pl].status == 'y') || (pakaiLab[pl].status == 'Y'))
+                    {
+                        cout << " (di Pinjam) " << endl;
+                    }
+                    else
+                    {
+                        cout << " (di kembalikan) " << endl;
+                    }
+                    cout << endl;
+                    cout << " Sudah di kembalikan ? (y/n) : ";
+                    cin >> yn;
+                    if ((yn == 'Y') || (yn == 'y'))
+                    {
+                        cout << " ganti status ( input n ) :";
+                        cin >> pakaiLab[pl].status;
+                        cout << "\n\n Data Berhasil Disimpan \n"
+                             << endl;
+                        system("pause");
+                        system("cls");
+                        goto menu;
+                    }
+                    else
+                    {
+                        cout << "\n\n Data Berhasil Disimpan \n"
+                             << endl;
+                        system("pause");
+                        system("cls");
+                        goto menu;
+                    }
+                }
+                else
+                {
+                    cout << "\n\n Data Tidak Di temukan \n"
+                         << endl;
+                    cout << " Apakah ingin mengulang kembali ? (y/n) : ";
+                    cin >> yn;
+                    if (yn == 'Y' || yn == 'y')
+                    {
+                        system("cls");
+                        goto pengembalian;
+                    }
+                    else
+                    {
+                        system("cls");
+                        goto menu;
+                    }
+                }
+            }
+        }
+
+        break;
+
+    case 4:
+    atas:
+        system("cls");
+        cout << "\n"
+             << endl;
+        cout << "\t\t\tInput Lab : \n"; //input Lab berdasarkan jumlah  Lab yang mau di input
+        cout << "\t\t\t____________________\n"
+             << endl;
+        cout << endl;
+
+        lk++;
+        cout << " Masukan data Lab/Kelas Ke \t: " << lk + 1 << endl;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << " Kode lab/kelas \t\t:";
+        gets(lab[lk].kode_lab);
+        cout << " judul Lab/kelas \t\t:";
+        gets(lab[lk].nama_lab);
+
+        cout << endl;
+        cout << "Apakah Anda Ingin Menambahkan Data Lagi ? (y/n) :";
+        cin >> yn;
+        if (yn == 'y' || yn == 'Y')
+        {
+            goto atas;
+        }
+        else
+        {
+            cout << "\n\n Data Berhasil Disimpan \n"
+                 << endl;
+            lb = 1;
+            system("pause");
+            system("cls");
+            goto menu;
+        }
+
+        break;
+
+    default:
+        break;
+    }
+}
